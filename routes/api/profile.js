@@ -1,8 +1,8 @@
 const express = require('express');
 const request = require('request');
+const auth = require('../../middleware/auth');
 const config = require('config');
 const router = express.Router();
-const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator/check');
 
 const Profile = require('../../models/Profile');
@@ -24,6 +24,7 @@ router.get('/me', auth, async (req, res) => {
         .status(400)
         .json({ msg: 'Currently no profile is set for requested user' });
     }
+    res.json(profile);
   } catch (err) {
     console.error(error.message);
     res.status(500).send('Server Error');
